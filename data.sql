@@ -314,3 +314,211 @@ INSERT INTO
         id_paciente
     )
 VALUES (2, 'Cônjuge', 1), (6, 'Amigo', 5), (10, 'Familiar', 9), (14, 'Irmão/Irmã', 13), (18, 'Namorado/Namorada', 17);
+
+-- Inserir dados fictícios na tabela convenio
+
+-- Inserir convênios de exemplo em uma única execução de código
+
+INSERT INTO
+    Convenio (nome, id_paciente, cobertura)
+VALUES (
+        'Plano A',
+        1,
+        'Cobertura básica'
+    ), (
+        'Plano B',
+        5,
+        'Cobertura completa'
+    ), (
+        'Plano C',
+        9,
+        'Cobertura odontológica'
+    ), (
+        'Plano D',
+        13,
+        'Cobertura de emergência'
+    ), (
+        'Plano E',
+        17,
+        'Cobertura especializada'
+    );
+
+-- Inserindo dados de exemplo na tabela Consulta
+
+INSERT INTO
+    consulta (id_paciente, id_medico, data)
+VALUES (1, 3, '2023-01-01'), (5, 7, '2023-02-15'), (9, 11, '2023-03-10'), (13, 15, '2023-04-05'), (17, 19, '2023-05-20');
+
+-- Inserindo dados de exemplo na tabela Diagnóstico
+
+INSERT INTO
+    diagnóstico (
+        id_consulta,
+        CID,
+        atestado,
+        medicamento,
+        recomendação
+    )
+VALUES (
+        1,
+        'A001',
+        'Apto para o trabalho',
+        'Paracetamol; Ibuprofeno',
+        'Repouso e hidratação'
+    ), (
+        2,
+        'B102',
+        'Apto para o trabalho',
+        'Ibuprofeno; Aspirina',
+        'Evitar esforço físico'
+    ), (
+        3,
+        'C203',
+        'Inapto para o trabalho',
+        'Amoxicilina; Dipirona',
+        'Seguir prescrição médica'
+    ), (
+        4,
+        'D304',
+        'Inapto para o trabalho',
+        'Dipirona; Naproxeno',
+        'Repouso absoluto'
+    ), (
+        5,
+        'E405',
+        'Apto para o trabalho',
+        'Ciprofloxacino; Paracetamol',
+        'Manter acompanhamento médico regular'
+    );
+
+-- Inserindo dados de exemplo na tabela Equipamento com nomes reais de equipamentos médicos de exame
+
+INSERT INTO
+    equipamento (nome, data_manutenção)
+VALUES (
+        'Ressonância Magnética',
+        '2023-01-05'
+    ), (
+        'Tomografia Computadorizada',
+        '2023-02-10'
+    ), (
+        'Mamógrafo Digital',
+        '2023-03-15'
+    ), (
+        'Ecocardiograma',
+        '2023-04-20'
+    ), (
+        'Endoscópio Flexível',
+        '2023-05-25'
+    ), (
+        'Holter Monitor',
+        '2023-06-30'
+    ), (
+        'Espectrômetro de Massas',
+        '2023-07-05'
+    ), (
+        'Eletrocardiograma (ECG)',
+        '2023-08-10'
+    ), (
+        'Microscópio Eletrônico',
+        '2023-09-15'
+    ), (
+        'Monitor de Pressão Arterial Ambulatorial',
+        '2023-10-20'
+    );
+
+-- Inserindo dados de exemplo na tabela Exame
+
+INSERT INTO
+    exame (
+        id_consulta,
+        id_equipamento,
+        nome,
+        data,
+        resultado
+    )
+VALUES (
+        1,
+        1,
+        'Ressonância Craniana',
+        '2023-01-10',
+        'Normal'
+    ), (
+        2,
+        3,
+        'Tomografia Abdominal',
+        '2023-02-15',
+        'Inflamação detectada'
+    ), (
+        3,
+        5,
+        'Mamografia',
+        '2023-03-20',
+        'Sem anomalias'
+    ), (
+        4,
+        7,
+        'Ecocardiograma Doppler',
+        '2023-04-25',
+        'Função cardíaca normal'
+    ), (
+        5,
+        9,
+        'Endoscopia Digestiva',
+        '2023-05-30',
+        'Úlcera identificada'
+    );
+
+-- Inserindo dados de exemplo adicionais na tabela Exame
+
+INSERT INTO
+    exame (
+        id_consulta,
+        id_equipamento,
+        nome,
+        data,
+        resultado
+    )
+VALUES (
+        1,
+        2,
+        'Exame de Sangue',
+        '2023-01-12',
+        'Níveis normais'
+    ), (
+        2,
+        4,
+        'Exame de Urina',
+        '2023-02-17',
+        'Sem infecções'
+    ), (
+        3,
+        6,
+        'Holter 24 horas',
+        '2023-03-22',
+        'Ritmo cardíaco estável'
+    ), (
+        4,
+        8,
+        'Eletroencefalograma (EEG)',
+        '2023-04-27',
+        'Padrões normais'
+    ), (
+        5,
+        10,
+        'Microscopia Eletrônica',
+        '2023-06-01',
+        'Células saudáveis'
+    );
+
+-- Inserindo dados adicionais de exemplo na tabela Consulta
+
+INSERT INTO
+    consulta (id_paciente, id_medico, data)
+VALUES (5, 15, '2023-06-05'), (9, 3, '2023-07-10'), (13, 19, '2023-08-15'), (17, 7, '2023-09-20'), (1, 11, '2023-10-25');
+
+-- Inserindo dados adicionais de exemplo na tabela Consulta
+
+INSERT INTO
+    consulta (id_paciente, id_medico, data)
+VALUES (5, 11, '2023-11-05'), (9, 3, '2023-12-10'), (13, 15, '2024-01-15'), (17, 7, '2024-02-20'), (1, 19, '2024-03-25'), (5, 3, '2024-04-30'), (9, 15, '2024-05-05'), (13, 7, '2024-06-10'), (17, 11, '2024-07-15'), (1, 19, '2024-08-20');

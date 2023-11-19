@@ -80,3 +80,52 @@ CREATE TABLE
         FOREIGN KEY (id) REFERENCES pessoa (id),
         FOREIGN KEY (id_setor) REFERENCES setor (id)
     );
+
+CREATE TABLE
+    Consulta (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        id_paciente INT NOT NULL,
+        id_medico INT NOT NULL,
+        data DATE NOT NULL,
+        FOREIGN KEY (id_paciente) REFERENCES paciente (id),
+        FOREIGN KEY (id_medico) REFERENCES medico (id)
+    );
+
+CREATE TABLE
+    Diagnóstico (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        id_consulta INT NOT NULL,
+        CID VARCHAR(255) NOT NULL,
+        atestado VARCHAR(255) NOT NULL,
+        medicamento VARCHAR(255) NOT NULL,
+        recomendação VARCHAR(255) NOT NULL,
+        FOREIGN KEY (id_consulta) REFERENCES consulta (id)
+    );
+
+CREATE TABLE
+    Equipamento (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(255) NOT NULL,
+        data_manutenção DATE NOT NULL
+    );
+
+CREATE TABLE
+    Exame (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        id_consulta INT NOT NULL,
+        id_equipamento INT NOT NULL,
+        nome VARCHAR(255) NOT NULL,
+        data DATE NOT NULL,
+        resultado VARCHAR(255) NOT NULL,
+        FOREIGN KEY (id_equipamento) REFERENCES equipamento (id),
+        FOREIGN KEY (id_consulta) REFERENCES consulta (id)
+    );
+
+CREATE TABLE
+    Convenio (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(255) NOT NULL,
+        id_paciente INT NOT NULL,
+        cobertura VARCHAR(255) NOT NULL,
+        FOREIGN KEY (id_paciente) REFERENCES paciente (id)
+    );
