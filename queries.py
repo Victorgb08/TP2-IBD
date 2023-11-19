@@ -5,7 +5,7 @@ from mysql.connector import errorcode
 try:
     conn = mysql.connector.connect(
         user='root',
-        password='3284',
+        password='senha',  # Substituir pela senha do seu usuário
         host='localhost',
         database='clinica_medica'
     )
