@@ -52,10 +52,42 @@ try:
     print(tabulate(consultas, headers=[
         "ID", "Paciente", "Médico", "Data"], tablefmt="psql"))
 
+    # Consulta 4: Tipo da pessoa relacionada a pacientes, médicos e acompanhantes
+    cursor.execute("SELECT pessoa.id, pessoa.nome, 'Paciente' AS tipo FROM pessoa "
+                   "JOIN paciente ON pessoa.id = paciente.id "
+                   "UNION "
+                   "SELECT pessoa.id, pessoa.nome, 'Médico' AS tipo FROM pessoa "
+                   "JOIN medico ON pessoa.id = medico.id "
+                   "UNION "
+                   "SELECT pessoa.id, pessoa.nome, 'Acompanhante' AS tipo FROM pessoa "
+                   "JOIN acompanhante ON pessoa.id = acompanhante.id")
+    tipos_pessoas = cursor.fetchall()
+    print("\nConsulta 4: Tipo da pessoa relacionada a pacientes, médicos e acompanhantes:")
+    print(tabulate(tipos_pessoas, headers=[
+        "ID", "Nome", "Tipo"], tablefmt="psql"))
+
+    # Consulta 5: Pessoas na tabela acompanhante com tipo incompatível
+    cursor.execute("SELECT pessoa.id, pessoa.nome, 'Acompanhante' AS tipo "
+                   "FROM pessoa "
+                   "JOIN acompanhante ON pessoa.id = acompanhante.id "
+                   "WHERE pessoa.tipo != 'Acompanhante'")
+    incompativeis_acompanhantes = cursor.fetchall()
+    print("\nConsulta 5: Pessoas na tabela acompanhante com tipo incompatível:")
+    print(tabulate(incompativeis_acompanhantes, headers=[
+        "ID", "Nome", "Tipo"], tablefmt="psql"))
+
+    # Operação de atualização para corrigir o tipo da pessoa incompatível na tabela acompanhante
+    cursor.execute("UPDATE pessoa "
+                   "JOIN acompanhante ON pessoa.id = acompanhante.id "
+                   "SET pessoa.tipo = 'Acompanhante' "
+                   "WHERE pessoa.tipo != 'Acompanhante'")
+    conn.commit()
+    print("\nOperação de atualização concluída: Tipos incompatíveis corrigidos.")
+
     # UPDATE: Atualizar o salário de um médico
     cursor.execute("SELECT id, salário FROM medico LIMIT 1")
     medico_para_atualizar = cursor.fetchone()
-    novo_salario = medico_para_atualizar[1] - 1000
+    novo_salario = medico_para_atualizar[1] + 1000
     cursor.execute("UPDATE medico SET salário = %s WHERE id = %s",
                    (novo_salario, medico_para_atualizar[0]))
     conn.commit()
