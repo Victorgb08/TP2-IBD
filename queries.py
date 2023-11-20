@@ -2,6 +2,7 @@ import mysql.connector
 from mysql.connector import errorcode
 from dotenv import load_dotenv
 import os
+from tabulate import tabulate
 
 # Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
@@ -23,26 +24,33 @@ try:
 
     cursor = conn.cursor()
 
-    # Consulta 1: Selecionar todos os pacientes
-    cursor.execute("SELECT * FROM pessoa WHERE tipo = 'Paciente'")
+    # Consulta 1: Selecionar todos os pacientes com atributos da tabela paciente
+    cursor.execute(
+        "SELECT pessoa.*, paciente.historico, paciente.registro FROM pessoa JOIN paciente ON pessoa.id = paciente.id WHERE tipo = 'Paciente'")
     pacientes = cursor.fetchall()
-    print("\nConsulta 1: Todos os pacientes:")
-    for paciente in pacientes:
-        print(paciente)
+    print("\nConsulta 1: Todos os pacientes com atributos da tabela paciente:")
+    print(tabulate(pacientes, headers=[
+        "ID_pessoa", "Sexo", "CPF", "Nome", "Data de Nascimento", "Idade", "Telefone", "Endereço", "Tipo", "Histórico", "Registro"], tablefmt="psql"))
 
-    # Consulta 2: Selecionar todos os médicos
-    cursor.execute("SELECT * FROM pessoa WHERE tipo = 'Médico'")
+    # Consulta 2: Todos os médicos com atributos da tabela médico e nome do setor
+    cursor.execute("SELECT pessoa.*, setor.nome AS nome_setor, medico.salário, medico.crm, medico.especialização, medico.certificações "
+                   "FROM pessoa "
+                   "JOIN medico ON pessoa.id = medico.id "
+                   "JOIN setor ON medico.id_setor = setor.id "
+                   "WHERE tipo = 'Médico'")
     medicos = cursor.fetchall()
-    print("\nConsulta 2: Todos os médicos:")
-    for medico in medicos:
-        print(medico)
+    print("\nConsulta 2: Todos os médicos com atributos da tabela médico e nome do setor:")
+    print(tabulate(medicos, headers=[
+        "ID_pessoa", "Sexo", "CPF", "Nome", "Data de Nascimento", "Idade", "Telefone", "Endereço", "Tipo", "Nome_Setor", "Salário", "CRM", "Especialização", "Certificações"], tablefmt="psql"))
 
-    # Consulta 3: Selecionar todas as consultas
-    cursor.execute("SELECT * FROM consulta")
+    # Consulta 3: Todas as consultas com nomes de médico e paciente
+    cursor.execute("SELECT consulta.id, paciente_nome.nome AS paciente, medico_nome.nome AS medico, consulta.data FROM consulta "
+                   "JOIN pessoa AS paciente_nome ON consulta.id_paciente = paciente_nome.id "
+                   "JOIN pessoa AS medico_nome ON consulta.id_medico = medico_nome.id")
     consultas = cursor.fetchall()
-    print("\nConsulta 3: Todas as consultas:")
-    for consulta in consultas:
-        print(consulta)
+    print("\nConsulta 3: Todas as consultas com nomes de médico e paciente:")
+    print(tabulate(consultas, headers=[
+        "ID", "Paciente", "Médico", "Data"], tablefmt="psql"))
 
     # UPDATE: Atualizar o salário de um médico
     cursor.execute("SELECT id, salário FROM medico LIMIT 1")
