@@ -1,13 +1,24 @@
 import mysql.connector
 from mysql.connector import errorcode
+from dotenv import load_dotenv
+import os
+
+# Carregar variáveis de ambiente do arquivo .env
+load_dotenv()
+
+# Obter informações do banco de dados do ambiente
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+db_host = os.getenv("DB_HOST")
+db_database = os.getenv("DB_DATABASE")
 
 # Conectar ao banco de dados
 try:
     conn = mysql.connector.connect(
-        user='root',
-        password='senha',  # Substituir pela senha do seu usuário
-        host='localhost',
-        database='clinica_medica'
+        user=db_user,
+        password=db_password,
+        host=db_host,
+        database=db_database
     )
 
     cursor = conn.cursor()
@@ -33,10 +44,10 @@ try:
     for consulta in consultas:
         print(consulta)
 
-    # Atualização: Atualizar o salário de um médico
+    # UPDATE: Atualizar o salário de um médico
     cursor.execute("SELECT id, salário FROM medico LIMIT 1")
     medico_para_atualizar = cursor.fetchone()
-    novo_salario = medico_para_atualizar[1] + 1000
+    novo_salario = medico_para_atualizar[1] - 1000
     cursor.execute("UPDATE medico SET salário = %s WHERE id = %s",
                    (novo_salario, medico_para_atualizar[0]))
     conn.commit()
